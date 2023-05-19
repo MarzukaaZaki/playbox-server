@@ -14,3 +14,4 @@ Playbox Toystore server-side project is what provides the backend for its client
 - [ExpressJS](https://expressjs.com/)
 - [Cors](https://www.npmjs.com/package/cors)
 - [MongoDB](https://www.mongodb.com/)
+- [Dotenv](https://www.npmjs.com/package/dotenv)
