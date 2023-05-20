@@ -36,9 +36,16 @@ async function run() {
     const database = client.db('toysDB');
     const toysCollection = database.collection('toysCollection');
 
+    // Post a toy
     app.post('/addtoy', async(req, res)=>{
       const body = req.body;
       const result = await toysCollection.insertOne(body);
+      res.send(result);
+    })
+
+    // Fetch all toys from the database
+    app.get('/all', async(req, res)=>{
+      const result = await toysCollection.find({}).toArray();
       res.send(result);
     })
 
