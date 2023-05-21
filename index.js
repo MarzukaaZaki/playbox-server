@@ -35,19 +35,37 @@ async function run() {
 
     const database = client.db('toysDB');
     const toysCollection = database.collection('toysCollection');
+    // Fetch all toys from the database
+    app.get('/all', async (req, res) => {
+      const result = await toysCollection.find({}).toArray();
+      res.send(result);
+    })
+
+    // Fetch all categorywise toys from the database
+    app.get('/all/:category', async (req, res) => {
+      if (req.params.category == 'Pokemon' ||
+        req.params.category == 'Lego Juniors' ||
+        req.params.category == 'Kirby' ||
+        req.params.category == 'Super Mario' ||
+        req.params.category == 'The Legend of Zelda' ||
+        req.params.category == 'Paw Patrol') {
+        const result = await toysCollection.find({ category: req.params.category }).toArray();
+        res.send(result);
+      }
+      else{
+      const result = await toysCollection.find({}).toArray();
+      res.send(result);
+    }
+    })
 
     // Post a toy
-    app.post('/addtoy', async(req, res)=>{
+    app.post('/addtoy', async (req, res) => {
       const body = req.body;
       const result = await toysCollection.insertOne(body);
       res.send(result);
     })
 
-    // Fetch all toys from the database
-    app.get('/all', async(req, res)=>{
-      const result = await toysCollection.find({}).toArray();
-      res.send(result);
-    })
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
@@ -66,11 +84,11 @@ run().catch(console.dir);
 const port = process.env.PORT || 5000;
 
 // Defining a URL and the response the users will get when they go to that url.
-app.get('/', (req, res)=>{
-    res.send('Playbox Server is Running!');
+app.get('/', (req, res) => {
+  res.send('Playbox Server is Running!');
 })
 
 // Set the port at which the server should listen for incoming requests
-app.listen(port, ()=>{
-    console.log(`Playbox server is running on port ${port}`);
+app.listen(port, () => {
+  console.log(`Playbox server is running on port ${port}`);
 })
