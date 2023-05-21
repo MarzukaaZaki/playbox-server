@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config()
 
 // Import express from nodejs 
@@ -63,6 +63,14 @@ async function run() {
       const result = await toysCollection.find({}).toArray();
       res.send(result);
     }
+    })
+
+    app.get('/toy/:id', async(req, res) =>{
+      const id = req.params.id;
+      console.log(id);
+      const query = {_id: new ObjectId(id)};
+      const result = await toysCollection.findOne(query);
+      res.send(result);
     })
 
     // Fetch toy posted by logged in user
