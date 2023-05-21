@@ -58,6 +58,13 @@ async function run() {
     }
     })
 
+    // Fetch toy posted by logged in user
+    app.get('/mytoys/:email', async(req, res)=>{
+      console.log(req.params.id);
+      const result = await toysCollection.find({email :req.params.email}).toArray();
+      res.send(result);
+    })
+
     // Post a toy
     app.post('/addtoy', async (req, res) => {
       const body = req.body;
