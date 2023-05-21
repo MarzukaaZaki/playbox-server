@@ -61,7 +61,7 @@ async function run() {
     // Fetch toy posted by logged in user
     app.get('/mytoys/:email', async(req, res)=>{
       console.log(req.params.id);
-      const result = await toysCollection.find({email :req.params.email}).toArray();
+      const result = await toysCollection.find({email :req.params.email}).sort({price: 1}).collation({locale:'en_US', numericOrdering: true }).toArray();
       res.send(result);
     })
 
