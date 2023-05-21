@@ -101,6 +101,12 @@ async function run() {
       const body = req.body;
       const result = await toysCollection.insertOne(body);
       res.send(result);
+      if(result.deletedCount === 1){
+        console.log("Delete Successful.");
+      }
+      else{
+        console.log("Couldn't Delete Item.");
+      }
     })
 
     // Update Toy
@@ -121,6 +127,14 @@ async function run() {
         res.send(result);
      
 
+    })
+
+    // Delete
+    app.delete('/delete/:id', async(req, res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)};
+      const result = await toysCollection.deleteOne(query);
+      res.send(result)
     })
 
     
